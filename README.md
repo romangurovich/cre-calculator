@@ -45,7 +45,8 @@ Required GitHub repository secrets:
 Setup steps:
 1. In GitHub, open `Settings` -> `Secrets and variables` -> `Actions`.
 2. Add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
-3. Push to `main` (or run the workflow manually via `workflow_dispatch`).
+3. In `Settings` -> `Actions` -> `General`, set Workflow permissions to allow write access (needed for GitHub Deployments API).
+4. Push to `main` (or run the workflow manually via `workflow_dispatch`).
 
 Notes:
 - `dist/` is build output and is intentionally not committed; CI and deploy workflows build it on the fly.
