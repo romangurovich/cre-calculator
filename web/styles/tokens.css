@@ -1,0 +1,37 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+:root {
+  --color-page: #ece8de;
+  --color-surface: #f7f3ea;
+  --color-ink: #1d242a;
+  --color-ink-muted: #4a565f;
+  --color-border: #b6ab9a;
+  --color-border-strong: #8d7f6b;
+  --color-accent: #9a5b2c;
+  --color-accent-soft: #dfc8af;
+  --color-success: #29674a;
+  --color-danger: #8b3426;
+  --color-info: #38576e;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "IBM Plex Sans", "Trebuchet MS", sans-serif;
+  --font-mono: "IBM Plex Mono", "Courier New", monospace;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  --radius-1: 0.2rem;
+  --radius-2: 0.35rem;
+  --radius-3: 0.6rem;
+
+  --shadow-1: 0 1px 0 rgba(0, 0, 0, 0.12);
+  --shadow-2: 0 6px 20px rgba(23, 21, 17, 0.14);
+
+  --motion-fast: 120ms;
+  --motion-medium: 220ms;
+}
