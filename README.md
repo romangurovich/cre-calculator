@@ -34,7 +34,21 @@ Persona-aware commercial property calculator with scenario comparison, template 
 3. Deploy current build:
    - `npm run deploy:cloudflare -- --project-name cre-scenario-studio`
 
+### Automatic deploys from GitHub `main`
+
+This repo includes `.github/workflows/deploy-cloudflare-pages.yml` which deploys to Cloudflare Pages on every push to `main`.
+
+Required GitHub repository secrets:
+- `CLOUDFLARE_API_TOKEN` (token with Cloudflare Pages deploy permissions)
+- `CLOUDFLARE_ACCOUNT_ID` (Cloudflare account id)
+
+Setup steps:
+1. In GitHub, open `Settings` -> `Secrets and variables` -> `Actions`.
+2. Add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
+3. Push to `main` (or run the workflow manually via `workflow_dispatch`).
+
 Notes:
+- `dist/` is build output and is intentionally not committed; CI and deploy workflows build it on the fly.
 - `wrangler.toml` is configured with `pages_build_output_dir = "dist"`.
 - The app uses hash-based routes, so no extra Cloudflare routing config is required.
 
