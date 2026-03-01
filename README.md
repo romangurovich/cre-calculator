@@ -17,6 +17,19 @@ Persona-aware commercial property calculator with scenario comparison, template 
 2. Build the UI bundle:
    - `npm run build`
 
+## Deploy to Cloudflare Pages
+
+1. Authenticate Wrangler:
+   - `npx wrangler login`
+2. Create a Pages project (first time only):
+   - `npx wrangler pages project create cre-scenario-studio --production-branch main`
+3. Deploy current build:
+   - `npm run deploy:cloudflare -- --project-name cre-scenario-studio`
+
+Notes:
+- `wrangler.toml` is configured with `pages_build_output_dir = "dist"`.
+- The app uses hash-based routes, so no extra Cloudflare routing config is required.
+
 ## Key workflow screens
 
 - `Analysis`: choose persona, fill assumptions, create up to 3 scenarios, view deltas, export CSV/JSON.
