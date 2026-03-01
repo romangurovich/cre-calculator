@@ -247,7 +247,8 @@ export function renderAnalysisView(container, { state }) {
           createInputLabel({
             label: field.label,
             id: `assumption-${fieldId}`,
-            input
+            input,
+            helpText: field.helpText
           })
         );
       }
@@ -324,7 +325,8 @@ export function renderAnalysisView(container, { state }) {
           createInputLabel({
             label: getFieldLabel(fieldId),
             id: `scenario-${scenario.id}-${fieldId}`,
-            input
+            input,
+            helpText: field.helpText
           })
         );
       }

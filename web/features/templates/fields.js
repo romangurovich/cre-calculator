@@ -2,6 +2,7 @@ export const CALCULATOR_FIELDS = [
   {
     id: "purchasePrice",
     label: "Purchase Price",
+    helpText: "Total negotiated acquisition price before financing and transaction adjustments.",
     section: "Acquisition",
     type: "number",
     min: 0,
@@ -11,6 +12,7 @@ export const CALCULATOR_FIELDS = [
   {
     id: "closingCosts",
     label: "Closing Costs",
+    helpText: "One-time transaction costs paid at closing, including legal and lender fees.",
     section: "Acquisition",
     type: "number",
     min: 0,
@@ -20,6 +22,7 @@ export const CALCULATOR_FIELDS = [
   {
     id: "capexReserve",
     label: "CapEx Reserve",
+    helpText: "Upfront reserve for tenant improvements, deferred maintenance, and planned upgrades.",
     section: "Acquisition",
     type: "number",
     min: 0,
@@ -29,6 +32,7 @@ export const CALCULATOR_FIELDS = [
   {
     id: "ltv",
     label: "LTV",
+    helpText: "Loan-to-value ratio. 0.70 means debt covers 70% of purchase price.",
     section: "Financing",
     type: "number",
     min: 0,
@@ -39,6 +43,7 @@ export const CALCULATOR_FIELDS = [
   {
     id: "interestRateAnnual",
     label: "Interest Rate (Annual)",
+    helpText: "Annual nominal debt rate used for payment and debt service calculations.",
     section: "Financing",
     type: "number",
     min: 0,
@@ -49,6 +54,7 @@ export const CALCULATOR_FIELDS = [
   {
     id: "amortizationYears",
     label: "Amortization (Years)",
+    helpText: "Years used to fully amortize the loan principal for debt service calculations.",
     section: "Financing",
     type: "number",
     min: 1,
@@ -58,6 +64,7 @@ export const CALCULATOR_FIELDS = [
   {
     id: "holdYears",
     label: "Hold Period (Years)",
+    helpText: "Number of years the property is held before modeled sale or exit.",
     section: "Strategy",
     type: "number",
     min: 1,
@@ -67,6 +74,7 @@ export const CALCULATOR_FIELDS = [
   {
     id: "rentableSqft",
     label: "Rentable Sq Ft",
+    helpText: "Total leasable area used to calculate gross rent potential and occupancy income.",
     section: "Operations",
     type: "number",
     min: 1,
@@ -76,6 +84,7 @@ export const CALCULATOR_FIELDS = [
   {
     id: "occupancyRate",
     label: "Occupancy Rate",
+    helpText: "Expected occupied share of rentable area. 0.90 means 90% occupied.",
     section: "Operations",
     type: "number",
     min: 0,
@@ -86,6 +95,7 @@ export const CALCULATOR_FIELDS = [
   {
     id: "rentPerSqftAnnual",
     label: "Rent / Sq Ft (Annual)",
+    helpText: "Annual rent assumed per rentable square foot before expense deductions.",
     section: "Operations",
     type: "number",
     min: 0,
@@ -95,6 +105,7 @@ export const CALCULATOR_FIELDS = [
   {
     id: "operatingExpensesAnnual",
     label: "Operating Expenses (Annual)",
+    helpText: "Annual property operating costs excluded from debt service and capital events.",
     section: "Operations",
     type: "number",
     min: 0,
@@ -104,6 +115,7 @@ export const CALCULATOR_FIELDS = [
   {
     id: "rentGrowthRate",
     label: "Rent Growth Rate",
+    helpText: "Year-over-year rent escalation assumption applied during the hold period.",
     section: "Operations",
     type: "number",
     min: -0.2,
@@ -114,6 +126,7 @@ export const CALCULATOR_FIELDS = [
   {
     id: "expenseInflationRate",
     label: "Expense Inflation Rate",
+    helpText: "Year-over-year inflation applied to operating expenses during the hold period.",
     section: "Operations",
     type: "number",
     min: -0.2,
@@ -124,6 +137,7 @@ export const CALCULATOR_FIELDS = [
   {
     id: "exitCapRate",
     label: "Exit Cap Rate",
+    helpText: "Capitalization rate used to estimate terminal sale value from stabilized NOI.",
     section: "Exit",
     type: "number",
     min: 0.001,
@@ -134,6 +148,7 @@ export const CALCULATOR_FIELDS = [
   {
     id: "saleCostRate",
     label: "Sale Cost Rate",
+    helpText: "Percentage of sale price allocated to broker fees and transaction costs.",
     section: "Exit",
     type: "number",
     min: 0,
@@ -144,6 +159,7 @@ export const CALCULATOR_FIELDS = [
   {
     id: "currentLeaseCostAnnual",
     label: "Current Lease Cost (Annual)",
+    helpText: "Current annual lease expense used to compare buy-versus-lease cash burden.",
     section: "Owner/Operator",
     personas: ["owner-operator"],
     type: "number",
@@ -154,6 +170,7 @@ export const CALCULATOR_FIELDS = [
   {
     id: "grossMarginRate",
     label: "Gross Margin Rate",
+    helpText: "Business gross margin used to estimate revenue needed to offset occupancy changes.",
     section: "Owner/Operator",
     personas: ["owner-operator"],
     type: "number",
@@ -165,6 +182,7 @@ export const CALCULATOR_FIELDS = [
   {
     id: "movingCosts",
     label: "Moving Costs",
+    helpText: "One-time relocation and setup costs associated with moving into owned space.",
     section: "Owner/Operator",
     personas: ["owner-operator"],
     type: "number",
@@ -201,3 +219,22 @@ export function getFieldsForPersona(persona) {
 export function getFieldLabel(fieldId) {
   return FIELD_MAP[fieldId]?.label || fieldId;
 }
+
+export function getFieldHelpText(fieldId) {
+  return FIELD_MAP[fieldId]?.helpText || "";
+}
+
+export function getFieldsMissingHelpText(fields = CALCULATOR_FIELDS) {
+  return fields
+    .filter((field) => typeof field.helpText !== "string" || field.helpText.trim().length === 0)
+    .map((field) => field.id);
+}
+
+export function assertFieldHelpTextCoverage() {
+  const missing = getFieldsMissingHelpText();
+  if (missing.length > 0) {
+    throw new Error(`Missing helpText metadata for fields: ${missing.join(", ")}`);
+  }
+}
+
+assertFieldHelpTextCoverage();

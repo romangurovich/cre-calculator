@@ -17,6 +17,14 @@ Persona-aware commercial property calculator with scenario comparison, template 
 2. Build the UI bundle:
    - `npm run build`
 
+### Manual QA checklist
+
+- Analysis screen: each field label has an info bubble and displays contextual help text on hover/focus/tap.
+- Analysis screen: pressing `Esc` on a focused info bubble closes it.
+- Composer screen: field catalog items and placed fields each show info bubbles with matching help text.
+- Composer screen: info bubbles do not break drag-and-drop reordering or cross-section moves.
+- Mobile viewport: tap opens and closes info bubbles without obscuring primary form actions.
+
 ## Deploy to Cloudflare Pages
 
 1. Authenticate Wrangler:

@@ -13,6 +13,13 @@
   --color-danger: #8b3426;
   --color-info: #38576e;
 
+  --tooltip-surface: #1f2830;
+  --tooltip-text: #f8f6f2;
+  --tooltip-border: #8c7d68;
+  --tooltip-shadow: 0 8px 24px rgba(10, 12, 14, 0.34);
+  --tooltip-max-width: 22rem;
+  --tooltip-offset: 0.45rem;
+
   --font-display: "Fraunces", Georgia, serif;
   --font-body: "IBM Plex Sans", "Trebuchet MS", sans-serif;
   --font-mono: "IBM Plex Mono", "Courier New", monospace;
@@ -34,4 +41,5 @@
 
   --motion-fast: 120ms;
   --motion-medium: 220ms;
+  --motion-tooltip: 180ms;
 }

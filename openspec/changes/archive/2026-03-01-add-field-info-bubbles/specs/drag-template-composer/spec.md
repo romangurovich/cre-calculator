@@ -1,3 +1,5 @@
+## MODIFIED Requirements
+
 ### Requirement: Drag field catalog into template canvas
 The system SHALL provide a field catalog of calculator inputs and SHALL allow users to drag fields into template sections on a composition canvas. The system SHALL show an info bubble for each field in the catalog and each placed field in the template canvas.
 
@@ -8,17 +10,3 @@ The system SHALL provide a field catalog of calculator inputs and SHALL allow us
 #### Scenario: User views field guidance in composer
 - **WHEN** a user opens the info bubble for `interestRateAnnual` from the catalog or canvas
 - **THEN** the composer shows the same contextual help text for that field in either location
-
-### Requirement: Field ordering and placement controls
-The system SHALL allow users to reorder placed fields within a section and move fields between sections.
-
-#### Scenario: User reorders field position
-- **WHEN** a user drags a field from position three to position one in the same section
-- **THEN** the template preview reflects the updated order immediately
-
-### Requirement: Template validation before save
-The system SHALL validate that required persona fields are present in the template before allowing publish-ready save.
-
-#### Scenario: Missing required field during save
-- **WHEN** a user attempts to save a landlord template without `purchasePrice`
-- **THEN** the system blocks save and identifies missing required fields

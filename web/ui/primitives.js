@@ -1,3 +1,7 @@
+import { nextInfoBubbleState } from "./info-bubble-state.js";
+
+let infoBubbleCounter = 0;
+
 export function createElement(tagName, options = {}) {
   const element = document.createElement(tagName);
 
@@ -49,9 +53,104 @@ export function createCard(title, description = "") {
   return card;
 }
 
-export function createInputLabel({ label, id, input }) {
+export function createInfoBubble({ helpText, label = "Field information" }) {
+  const wrapper = createElement("span", { className: "info-bubble" });
+  const tooltipId = `info-bubble-${++infoBubbleCounter}`;
+
+  const trigger = createElement("button", {
+    className: "info-bubble-button",
+    text: "i",
+    attributes: {
+      type: "button",
+      "aria-label": label,
+      "aria-controls": tooltipId,
+      "aria-expanded": "false",
+      draggable: "false"
+    }
+  });
+
+  const panel = createElement("span", {
+    className: "info-bubble-panel",
+    text: helpText,
+    attributes: {
+      id: tooltipId,
+      role: "tooltip"
+    }
+  });
+
+  let state = {
+    open: false,
+    pinned: false
+  };
+
+  function render() {
+    trigger.setAttribute("aria-expanded", state.open ? "true" : "false");
+    panel.hidden = !state.open;
+    wrapper.classList.toggle("open", state.open);
+  }
+
+  function transition(eventType) {
+    state = nextInfoBubbleState(state, eventType);
+    render();
+  }
+
+  trigger.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    transition("toggle-pin");
+  });
+
+  wrapper.addEventListener("mouseenter", () => {
+    transition("hover-in");
+  });
+
+  wrapper.addEventListener("mouseleave", () => {
+    transition("hover-out");
+  });
+
+  trigger.addEventListener("focus", () => {
+    transition("focus-in");
+  });
+
+  wrapper.addEventListener("focusout", (event) => {
+    if (wrapper.contains(event.relatedTarget)) {
+      return;
+    }
+
+    transition("focus-out");
+  });
+
+  trigger.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") {
+      return;
+    }
+
+    transition("dismiss");
+    trigger.blur();
+  });
+
+  render();
+  appendChildren(wrapper, [trigger, panel]);
+  return wrapper;
+}
+
+function createLabelContent({ label, helpText }) {
+  if (!helpText) {
+    return createElement("span", { text: label });
+  }
+
+  const row = createElement("span", { className: "label-row" });
+  row.appendChild(createElement("span", { text: label }));
+  row.appendChild(createInfoBubble({
+    helpText,
+    label: `Info for ${label}`
+  }));
+  return row;
+}
+
+export function createInputLabel({ label, id, input, helpText }) {
   const wrapper = createElement("label", { attributes: { for: id } });
-  wrapper.appendChild(createElement("span", { text: label }));
+  wrapper.appendChild(createLabelContent({ label, helpText }));
   input.id = id;
   wrapper.appendChild(input);
   return wrapper;

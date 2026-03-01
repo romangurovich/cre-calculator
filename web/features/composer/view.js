@@ -7,7 +7,7 @@ import {
   insertField,
   removeField
 } from "./operations.js";
-import { clearChildren, createCard, createElement } from "../../ui/primitives.js";
+import { clearChildren, createCard, createElement, createInfoBubble } from "../../ui/primitives.js";
 
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
@@ -225,13 +225,33 @@ export function renderComposerView(container, { state }) {
   for (const field of getFieldsForPersona(viewState.persona)) {
     const item = createElement("div", {
       className: "field-chip",
-      text: `${field.label} (${field.id})`,
       attributes: {
         draggable: "true"
       }
     });
+
+    const title = createElement("span", {
+      className: "field-chip-main",
+      text: field.label
+    });
+    const meta = createElement("span", { className: "field-chip-meta" });
+    meta.appendChild(createElement("span", { className: "pill monospace", text: field.id }));
+    meta.appendChild(
+      createInfoBubble({
+        helpText: field.helpText,
+        label: `Info for ${field.label}`
+      })
+    );
+
+    item.appendChild(title);
+    item.appendChild(meta);
+
     item.draggable = true;
     item.addEventListener("dragstart", (event) => {
+      if (event.target.closest(".info-bubble")) {
+        event.preventDefault();
+        return;
+      }
       setDragData(event, {
         kind: "catalog",
         fieldId: field.id
@@ -316,9 +336,27 @@ export function renderComposerView(container, { state }) {
         attributes: { draggable: "true" }
       });
       chip.draggable = true;
-      chip.appendChild(createElement("span", { text: field ? field.label : fieldId }));
-      chip.appendChild(createElement("span", { className: "pill monospace", text: fieldId }));
+
+      const chipLabel = createElement("span", {
+        className: "field-chip-main",
+        text: field ? field.label : fieldId
+      });
+      const chipMeta = createElement("span", { className: "field-chip-meta" });
+      chipMeta.appendChild(createElement("span", { className: "pill monospace", text: fieldId }));
+      chipMeta.appendChild(
+        createInfoBubble({
+          helpText: field?.helpText || fieldId,
+          label: `Info for ${field ? field.label : fieldId}`
+        })
+      );
+      chip.appendChild(chipLabel);
+      chip.appendChild(chipMeta);
+
       chip.addEventListener("dragstart", (event) => {
+        if (event.target.closest(".info-bubble")) {
+          event.preventDefault();
+          return;
+        }
         setDragData(event, {
           kind: "placed",
           fieldId,
